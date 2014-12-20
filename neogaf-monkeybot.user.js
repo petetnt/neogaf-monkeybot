@@ -6,6 +6,7 @@
 // @author       PeteTNT
 // @match        http://www.neogaf.com/forum/showthread.php?t=*
 // @match        http://www.neogaf.com/forum/showpost.php?p=*
+// @match        http://www.neogaf.com/forum/private.php?do=newpm&u=253996
 // @require http://code.jquery.com/jquery-latest.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
