@@ -10,7 +10,7 @@ Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot
 5. Navigate to [NeoGAF](http://neogaf.com/forum)
 
 ## Features
-### "In library" highlighting for raffles
+- "In library" highlighting for raffles
 
 ## Version history
 ### 0.0.1
