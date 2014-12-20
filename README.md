@@ -1,4 +1,4 @@
-# NeoGAF-ModBot-helper
+# NeoGAF-Monkeybot
 
 Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot-bot giveaways a bit more fun.
 
