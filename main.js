@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         NeoGAF ModBot Helper
-// @namespace    http://github.com/petetnt/neogaf-modbot-helper
+// @name         NeoGAF MonkeyBot
+// @namespace    http://github.com/petetnt/neogaf-monkeybot
 // @version      0.0.1
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
