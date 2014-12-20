@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.0.1
+// @version      0.0.2
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://www.neogaf.com/forum/showthread.php?t=*
