@@ -4,10 +4,9 @@ Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot
 
 ## How-to use
 1. Download [GreaseMonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (Firefox) or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) (Chrome)
-2. Add a new script
-3. Open [this link](https://github.com/petetnt/neogaf-monkeybot/raw/master/neogaf-monkeybot.user.js). *Monkey should prompt you for install.
-4. Edit the script and add your Steam profile name and a SteamAPI key. Optionally add your SteamID64-value.
-5. Navigate to [NeoGAF](http://neogaf.com/forum)
+2. Open [this link](https://github.com/petetnt/neogaf-monkeybot/raw/master/neogaf-monkeybot.user.js). *Monkey should prompt you for install.
+3. Edit the script and add your Steam profile name and a SteamAPI key. Optionally add your SteamID64-value.
+4. Navigate to [NeoGAF](http://neogaf.com/forum)
 
 ## Features
 - "In library" highlighting for raffles
