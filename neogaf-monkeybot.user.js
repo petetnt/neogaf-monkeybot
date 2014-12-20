@@ -17,7 +17,8 @@ var steamProfileName = "INSERT_STEAM_PROFILE_NAME_HERE",
     apiKey = "INSERT_YOUR_APIKEY_HERE",
     steamID = null,
     ownedGames = JSON.parse(localStorage.getItem("steamGameList")) || [],
-    lastUpdate = localStorage.getItem("steamGameListUpdatedOn") || "";
+    lastUpdate = localStorage.getItem("steamGameListUpdatedOn") || "",
+    modBotUrl = "http://www.neogaf.com/forum/private.php?do=newpm&u=253996";
 
 function parseOwnedGames(json) {
     'use strict';
@@ -50,10 +51,21 @@ function matchGames() {
 
             if (ownedGames.indexOf(name) !== -1) {
                 $elem.html($elem.html().replace(name, "<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span><span class='inLibraryText'>" + name + "</span>"));
+            } else {
+                if (!/Taken by/.test(line)) {
+                    $elem.html($elem.html().replace(name, "<a class='sendModbotMessage' data-modbotline='" + line + "' title='Click me to message ModBot' href='" + modBotUrl + "'>" + name + "</a>"));
+                }
             }
         });
 
         $(elem).replaceWith($elem);
+
+        $("[data-modbotline]").on("click", function (evt) {
+            evt.preventDefault();
+            var elem = $(this);
+            localStorage.setItem("raffleLine", elem.data("modbotline"));
+            window.location.href = modBotUrl;
+        });
     });
 }
 
@@ -102,10 +114,19 @@ function loadOwnedGames() {
 if (window.top !== window.self) {
     return;
 } else {
-    if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate) {
-        loadOwnedGames();
-    } else {
-        matchGames();
+    var href = window.location.href;
+    if (/showpost|showthread/.test(href)) {
+        if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate) {
+            loadOwnedGames();
+        } else {
+            matchGames();
+        }
+    } else if (/private/.test(href)) {
+        var raffleLine = localStorage.getItem("raffleLine");
+        if (raffleLine) {
+            $("textarea[name='message']").val(raffleLine);
+            localStorage.removeItem("raffleLine");
+        }
     }
 }
 

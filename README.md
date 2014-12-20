@@ -12,6 +12,9 @@ Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot
 - "In library" highlighting for raffles
 
 ## Version history
+### 0.0.2
+* Add turn unclaimed games not in your library into "PM ModBot" links
+
 ### 0.0.1
 * First release
 * Highlights games that are in your library
