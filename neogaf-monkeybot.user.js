@@ -37,7 +37,7 @@ function parseOwnedGames(json) {
 
 function matchGames() {
     'use strict';
-    var modbotPosts = $("[data-username='ModBot'");
+    var modbotPosts = $("[data-username='ModBot']");
 
     modbotPosts.each(function (idx, elem) {
         var $elem = $(elem),
@@ -99,10 +99,14 @@ function loadOwnedGames() {
     });
 }
 
-if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate) {
-    loadOwnedGames();
+if (window.top !== window.self) {
+    return;
 } else {
-    matchGames();
+    if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate) {
+        loadOwnedGames();
+    } else {
+        matchGames();
+    }
 }
 
 (function () {
