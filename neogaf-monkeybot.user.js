@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.0.2
+// @version      0.0.3
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://www.neogaf.com/forum/showthread.php?t=*
 // @match        http://www.neogaf.com/forum/showpost.php?p=*
 // @match        http://www.neogaf.com/forum/private.php?do=newpm&u=253996
-// @require http://code.jquery.com/jquery-latest.js
+// @require      http://code.jquery.com/jquery-latest.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
 // @grant        GM_getResourceText
@@ -81,21 +81,22 @@ function getSteamID() {
             var xmlDoc = $.parseXML(response.responseText),
                 $xml = $(xmlDoc);
             steamID = $xml.find("steamID64").text();
+            localStorage.setItem("steamID64", steamID);
             loadOwnedGames();
         },
         onerror: function() {
-            console.error("Retrieving SteamID failed. Make sure you have correcly entered your Steam profile name");
+            console.error("Monkeybot - Retrieving SteamID failed. Make sure you have correcly entered your Steam profile name");
         }
     });
 }
 
 function loadOwnedGames() {
     'use strict';
-    if (!steamID) {
+    if (!steamID || !localStorage.getItem("steamID64")) {
         if( steamProfileName !== "") {
             getSteamID();
         } else {
-            console.error("Retrieving SteamID failed. Make sure you have included your Steam profile name or SteamID");
+            console.error("Monkeybot - Retrieving SteamID failed. Make sure you have included your Steam profile name or SteamID");
             return;
         }
     }
@@ -108,6 +109,9 @@ function loadOwnedGames() {
         url: url,
         onload: function(response) {
             parseOwnedGames(JSON.parse(response.responseText).response);
+        },
+        onerror: function() {
+            console.error("Monkeybot - Retrieving Steam Game List failed. Try again later");
         }
     });
 }
