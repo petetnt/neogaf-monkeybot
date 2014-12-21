@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.0.4
+// @version      0.0.5
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://www.neogaf.com/forum/showthread.php?t=*
@@ -20,7 +20,7 @@ var steamProfileName = "INSERT_STEAM_PROFILE_NAME_HERE",
     ownedGames = JSON.parse(localStorage.getItem("steamGameList")) || [],
     lastUpdate = localStorage.getItem("steamGameListUpdatedOn") || "",
     modBotUrl = "http://www.neogaf.com/forum/private.php?do=newpm&u=253996",
-    modbotPosts = $("[data-username='ModBot']");
+    modBotPosts = $("[data-username='ModBot']");
 
 
 function parseOwnedGames(json) {
@@ -30,7 +30,7 @@ function parseOwnedGames(json) {
 
     for (game in games) {
         if (games.hasOwnProperty(game)) {
-            ownedGames.push(games[game].name);
+            ownedGames.push(games[game].name.toLowerCase());
         }
     }
 
@@ -41,7 +41,7 @@ function parseOwnedGames(json) {
 
 function matchGames() {
     'use strict';
-    modbotPosts.each(function (idx, elem) {
+    modBotPosts.each(function (idx, elem) {
         var $elem = $(elem),
             text = $elem.text(),
             giveaways = text.match(/^ *(.*\b(?:MB-)\b.*)/gm);
@@ -50,7 +50,7 @@ function matchGames() {
             var line = giveaways[key],
                 name = line.split("--")[0].trim();
 
-            if (ownedGames.indexOf(name) !== -1) {
+            if (ownedGames.indexOf(name.toLowerCase()) !== -1) {
                 $elem.html($elem.html().replace(name, "<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span><span class='inLibraryText'>" + name + "</span>"));
             } else {
                 if (!/Taken by/.test(line)) {
@@ -120,7 +120,7 @@ if (window.top !== window.self) {
     return;
 } else {
     var href = window.location.href;
-    if (/showpost|showthread/.test(href) && modbotPosts.length) {
+    if (/showpost|showthread/.test(href) && modBotPosts.length) {
         if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate) {
             loadOwnedGames();
         } else {
