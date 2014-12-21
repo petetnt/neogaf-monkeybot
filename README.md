@@ -12,6 +12,9 @@ Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot
 - Adds clickable links to games that you don't own yet
 
 ## Version history
+### 0.0.4
+* Small fixes that should improve performance a bit
+
 ### 0.0.3
 * Small fixes that should improve performance a bit
 

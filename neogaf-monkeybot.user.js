@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.0.3
+// @version      0.0.4
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://www.neogaf.com/forum/showthread.php?t=*
@@ -19,7 +19,9 @@ var steamProfileName = "INSERT_STEAM_PROFILE_NAME_HERE",
     steamID = null,
     ownedGames = JSON.parse(localStorage.getItem("steamGameList")) || [],
     lastUpdate = localStorage.getItem("steamGameListUpdatedOn") || "",
-    modBotUrl = "http://www.neogaf.com/forum/private.php?do=newpm&u=253996";
+    modBotUrl = "http://www.neogaf.com/forum/private.php?do=newpm&u=253996",
+    modbotPosts = $("[data-username='ModBot']");
+
 
 function parseOwnedGames(json) {
     'use strict';
@@ -39,8 +41,6 @@ function parseOwnedGames(json) {
 
 function matchGames() {
     'use strict';
-    var modbotPosts = $("[data-username='ModBot']");
-
     modbotPosts.each(function (idx, elem) {
         var $elem = $(elem),
             text = $elem.text(),
@@ -120,7 +120,7 @@ if (window.top !== window.self) {
     return;
 } else {
     var href = window.location.href;
-    if (/showpost|showthread/.test(href)) {
+    if (/showpost|showthread/.test(href) && modbotPosts.length) {
         if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate) {
             loadOwnedGames();
         } else {
