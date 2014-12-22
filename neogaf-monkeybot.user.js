@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.0.5
+// @version      0.1.0
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://www.neogaf.com/forum/showthread.php?t=*
@@ -14,14 +14,13 @@
 
 // ==/UserScript==
 
-var steamProfileName = "INSERT_STEAM_PROFILE_NAME_HERE",
-    apiKey = "INSERT_YOUR_APIKEY_HERE",
-    steamID = null,
+var steamProfileName = localStorage.getItem("monkeyBot_steamProfileName") || "INSERT_STEAM_PROFILE_NAME_HERE",
+    apiKey = localStorage.getItem("monkeyBot_steamApiKey") || "INSERT_YOUR_API_KEY_HERE",
+    steamID = localStorage.getItem("steamID64") || null,
     ownedGames = JSON.parse(localStorage.getItem("steamGameList")) || [],
     lastUpdate = localStorage.getItem("steamGameListUpdatedOn") || "",
     modBotUrl = "http://www.neogaf.com/forum/private.php?do=newpm&u=253996",
     modBotPosts = $("[data-username='ModBot']");
-
 
 function parseOwnedGames(json) {
     'use strict';
@@ -30,12 +29,13 @@ function parseOwnedGames(json) {
 
     for (game in games) {
         if (games.hasOwnProperty(game)) {
-            ownedGames.push(games[game].name.toLowerCase());
+            ownedGames.push(games[game].name.toLowerCase().replace("/:-™/gi", ""));
         }
     }
 
-    localStorage.setItem("steamGameList", JSON.stringify(ownedGames));
-    localStorage.setItem("steamGameListUpdatedOn", new Date().toDateString());
+    localStorage.setItem("monkeyBot_steamGameList", JSON.stringify(ownedGames));
+    localStorage.setItem("monkeyBot_steamGameListUpdatedOn", new Date().toDateString());
+    localStorage.setItem("monkeyBot_version", GM_info.script.version); // jshint ignore:line
     matchGames();
 }
 
@@ -50,7 +50,7 @@ function matchGames() {
             var line = giveaways[key],
                 name = line.split("--")[0].trim();
 
-            if (ownedGames.indexOf(name.toLowerCase()) !== -1) {
+            if (ownedGames.indexOf(name.toLowerCase().replace("/:-™/gi", "")) !== -1) {
                 $elem.html($elem.html().replace(name, "<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span><span class='inLibraryText'>" + name + "</span>"));
             } else {
                 if (!/Taken by/.test(line)) {
@@ -85,7 +85,7 @@ function getSteamID() {
             loadOwnedGames();
         },
         onerror: function() {
-            console.error("Monkeybot - Retrieving SteamID failed. Make sure you have correcly entered your Steam profile name");
+            console.error("MonkeyBot - Retrieving SteamID failed. Make sure you have correcly entered your Steam profile name");
         }
     });
 }
@@ -93,13 +93,32 @@ function getSteamID() {
 function loadOwnedGames() {
     'use strict';
     if (!steamID || !localStorage.getItem("steamID64")) {
-        if( steamProfileName !== "") {
+        if (steamProfileName !== "INSERT_STEAM_PROFILE_NAME_HERE") {
             getSteamID();
         } else {
-            console.error("Monkeybot - Retrieving SteamID failed. Make sure you have included your Steam profile name or SteamID");
-            return;
+            steamProfileName = window.prompt('MonkeyBot says: Enter your Steam profile name');
+            console.log(steamProfileName, steamProfileName.length);
+            if (steamProfileName === null || steamProfileName === "") {
+                console.error("MonkeyBot - Retrieving SteamID failed. Make sure you have included your Steam profile name or SteamID");
+                return;
+            } else {
+                localStorage.setItem("monkeyBot_steamProfileName", steamProfileName);
+                getSteamID();
+            }
         }
     }
+
+    if (apiKey === null || apiKey === "INSERT_YOUR_API_KEY_HERE") {
+        apiKey = window.prompt('MonkeyBot says: Enter your Steam API key');
+
+        if (apiKey === null) {
+            console.error("MonkeyBot - Failed to set Steam API key. Please try again");
+            return;
+        } else {
+            localStorage.setItem("monkeyBot_steamApiKey", apiKey);
+        }
+    }
+
     var service = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?",
         params = "key=" + apiKey + "&include_appinfo=1&steamid=" + steamID + "&format=json",
         url = service + params;
@@ -111,7 +130,7 @@ function loadOwnedGames() {
             parseOwnedGames(JSON.parse(response.responseText).response);
         },
         onerror: function() {
-            console.error("Monkeybot - Retrieving Steam Game List failed. Try again later");
+            console.error("MonkeyBot - Retrieving Steam Game List failed. Try again later");
         }
     });
 }
@@ -121,7 +140,7 @@ if (window.top !== window.self) {
 } else {
     var href = window.location.href;
     if (/showpost|showthread/.test(href) && modBotPosts.length) {
-        if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate) {
+        if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate || localStorage.getItem("monkeyBot_version") !== GM_info.script.version) { // jshint ignore:line
             loadOwnedGames();
         } else {
             matchGames();
