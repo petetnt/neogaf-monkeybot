@@ -97,7 +97,6 @@ function loadOwnedGames() {
             getSteamID();
         } else {
             steamProfileName = window.prompt('MonkeyBot says: Enter your Steam profile name');
-            console.log(steamProfileName, steamProfileName.length);
             if (steamProfileName === null || steamProfileName === "") {
                 console.error("MonkeyBot - Retrieving SteamID failed. Make sure you have included your Steam profile name or SteamID");
                 return;
