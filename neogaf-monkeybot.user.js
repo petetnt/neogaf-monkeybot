@@ -9,8 +9,6 @@
 // @match        http://www.neogaf.com/forum/private.php?do=newpm&u=253996
 // @require      http://code.jquery.com/jquery-latest.js
 // @grant        GM_xmlhttpRequest
-// @grant        GM_addStyle
-// @grant        GM_getResourceText
 
 // ==/UserScript==
 
