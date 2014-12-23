@@ -90,7 +90,7 @@ function getSteamID() {
 
 function loadOwnedGames() {
     'use strict';
-    if (!steamID || !localStorage.getItem("monkeyBot_steamID64")) {
+    if (!steamID) {
         if (steamProfileName !== "INSERT_STEAM_PROFILE_NAME_HERE") {
             getSteamID();
         } else {
