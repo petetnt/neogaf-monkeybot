@@ -1,24 +1,24 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.1.0
+// @version      0.1.1
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
-// @match        http://www.neogaf.com/forum/showthread.php?t=*
-// @match        http://www.neogaf.com/forum/showpost.php?p=*
+// @match        http://www.neogaf.com/forum/showthread.php?*
+// @match        http://www.neogaf.com/forum/showpost.php?*
 // @match        http://www.neogaf.com/forum/private.php?do=newpm&u=253996
 // @require      http://code.jquery.com/jquery-latest.js
 // @grant        GM_xmlhttpRequest
 
 // ==/UserScript==
 
-var steamProfileName = localStorage.getItem("monkeyBot_steamProfileName") || "INSERT_STEAM_PROFILE_NAME_HERE",
-    apiKey = localStorage.getItem("monkeyBot_steamApiKey") || "INSERT_YOUR_API_KEY_HERE",
-    steamID = localStorage.getItem("steamID64") || null,
-    ownedGames = JSON.parse(localStorage.getItem("steamGameList")) || [],
-    lastUpdate = localStorage.getItem("steamGameListUpdatedOn") || "",
-    modBotUrl = "http://www.neogaf.com/forum/private.php?do=newpm&u=253996",
-    modBotPosts = $("[data-username='ModBot']");
+var steamProfileName = localStorage.getItem("monkeyBot_steamProfileName")            || "INSERT_STEAM_PROFILE_NAME_HERE",
+    apiKey =           localStorage.getItem("monkeyBot_steamApiKey")                 || "INSERT_YOUR_API_KEY_HERE",
+    steamID =          localStorage.getItem("monkeyBot_steamID64")                   || null,
+    ownedGames =       JSON.parse(localStorage.getItem("monkeyBot_steamGameList"))   || [],
+    lastUpdate =       localStorage.getItem("monkeyBot_steamGameListUpdatedOn")      || "",
+    modBotUrl =        "http://www.neogaf.com/forum/private.php?do=newpm&u=253996",
+    modBotPosts =      $("[data-username='ModBot']");
 
 function parseOwnedGames(json) {
     'use strict';
@@ -62,7 +62,7 @@ function matchGames() {
         $("[data-modbotline]").on("click", function (evt) {
             evt.preventDefault();
             var elem = $(this);
-            localStorage.setItem("raffleLine", elem.data("modbotline"));
+            localStorage.setItem("monkeyBot_raffleLine", elem.data("modbotline"));
             window.location.href = modBotUrl;
         });
     });
@@ -79,7 +79,7 @@ function getSteamID() {
             var xmlDoc = $.parseXML(response.responseText),
                 $xml = $(xmlDoc);
             steamID = $xml.find("steamID64").text();
-            localStorage.setItem("steamID64", steamID);
+            localStorage.setItem("monkeyBot_steamID64", steamID);
             loadOwnedGames();
         },
         onerror: function() {
@@ -90,7 +90,7 @@ function getSteamID() {
 
 function loadOwnedGames() {
     'use strict';
-    if (!steamID || !localStorage.getItem("steamID64")) {
+    if (!steamID || !localStorage.getItem("monkeyBot_steamID64")) {
         if (steamProfileName !== "INSERT_STEAM_PROFILE_NAME_HERE") {
             getSteamID();
         } else {
@@ -143,10 +143,10 @@ if (window.top !== window.self) {
             matchGames();
         }
     } else if (/private/.test(href)) {
-        var raffleLine = localStorage.getItem("raffleLine");
+        var raffleLine = localStorage.getItem("monkeyBot_raffleLine");
         if (raffleLine) {
             $("textarea[name='message']").val(raffleLine);
-            localStorage.removeItem("raffleLine");
+            localStorage.removeItem("monkeyBot_raffleLine");
         }
     }
 }

@@ -13,27 +13,6 @@ Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot
 - "In library" highlighting for raffles
 - Adds clickable links to games that you don't own yet
 
-## Version history
-### 0.1.0
-* Major rework on setting the credentials: you can now set the credentials manually or be prompted for them once after installing the script (or after the script is updated).
-* Improvements on game recognition: the script should now catch cases such as Batman
-
-### 0.0.5
-* Small fix that should improve game recognition a bit
-
-### 0.0.4
-* Small fixes that should improve performance a bit
-
-### 0.0.3
-* Small fixes that should improve performance a bit
-
-### 0.0.2
-* Add turn unclaimed games not in your library into "PM ModBot" links
-
-### 0.0.1
-* First release
-* Highlights games that are in your library
-
 ## FAQ
 ### Where to get a SteamAPI key?
 All use of the Steam Web API requires the use of an API Key. You can acquire one by [filling out this form](http://steamcommunity.com/dev/apikey). Use of the APIs also requires that you agree to the [Steam API Terms of Use](http://steamcommunity.com/dev/apiterms).
