@@ -40,7 +40,7 @@ function parseOwnedGames(json) {
 
 function checkIfOwnedOnSteam(name, line) {
     'use strict';
-    return ownedGames.indexOf(name.toLowerCase().replace("/:-™/gi", "")) !== -1 || /uPlay|\(GOG\)|\(Origin\)|Desura/.test(line);
+    return ownedGames.indexOf(name.toLowerCase().replace("/:-™/gi", "")) !== -1 && !/uPlay|\(GOG\)|\(Origin\)|Desura/.test(line);
 }
 
 function matchGames() {
