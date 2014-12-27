@@ -1,6 +1,7 @@
 # Version history
 ## 0.1.2
 * Fix for #2
+* Fixes an oversight with site matching
 
 ## 0.1.1
 * Fix for #1

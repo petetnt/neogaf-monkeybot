@@ -4,9 +4,9 @@
 // @version      0.1.2
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
-// @match        http://www.neogaf.com/forum/showthread.php?*
-// @match        http://www.neogaf.com/forum/showpost.php?*
-// @match        http://www.neogaf.com/forum/private.php?do=newpm&u=253996
+// @match        http://*neogaf.com/forum/showthread.php?*
+// @match        http://*neogaf.com/forum/showpost.php?*
+// @match        http://*neogaf.com/forum/private.php?do=newpm&u=253996
 // @require      http://code.jquery.com/jquery-latest.js
 // @grant        GM_xmlhttpRequest
 // @run-at       document-end
