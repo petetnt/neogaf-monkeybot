@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.1.1
+// @version      0.1.2
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://www.neogaf.com/forum/showthread.php?*
@@ -9,6 +9,7 @@
 // @match        http://www.neogaf.com/forum/private.php?do=newpm&u=253996
 // @require      http://code.jquery.com/jquery-latest.js
 // @grant        GM_xmlhttpRequest
+// @run-at       document-end
 
 // ==/UserScript==
 
@@ -37,6 +38,11 @@ function parseOwnedGames(json) {
     matchGames();
 }
 
+function checkIfOwnedOnSteam(name, line) {
+    'use strict';
+    return ownedGames.indexOf(name.toLowerCase().replace("/:-™/gi", "")) !== -1 || /uPlay|\(GOG\)|\(Origin\)|Desura/.test(line);
+}
+
 function matchGames() {
     'use strict';
     modBotPosts.each(function (idx, elem) {
@@ -48,7 +54,7 @@ function matchGames() {
             var line = giveaways[key],
                 name = line.split("--")[0].trim();
 
-            if (ownedGames.indexOf(name.toLowerCase().replace("/:-™/gi", "")) !== -1) {
+            if (checkIfOwnedOnSteam(name, line)) {
                 $elem.html($elem.html().replace(name, "<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span><span class='inLibraryText'>" + name + "</span>"));
             } else {
                 if (!/Taken by/.test(line)) {
