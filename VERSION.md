@@ -1,5 +1,9 @@
 # Version history
 ## 0.1.2
+* Fix for #3
+* Fixes an massive oversight that might have led peoples with tons of games localStorage to fill up, sorry about that!
+
+## 0.1.2
 * Fix for #2
 * Fixes an oversight with site matching
 
