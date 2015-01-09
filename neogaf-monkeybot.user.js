@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.1.2
+// @version      0.1.3
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://*.neogaf.com/forum/showthread.php?*
@@ -26,6 +26,7 @@ function parseOwnedGames(json) {
     var games = json.games,
         game = null;
 
+    ownedGames = {};
     for (game in games) {
         if (games.hasOwnProperty(game)) {
             ownedGames.push(games[game].name.toLowerCase().replace("/:-™/gi", ""));
