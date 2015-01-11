@@ -3,15 +3,16 @@ Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot
 
 ![NeoGAF ModBot MonkeyBot](/images/banner.png?raw=true "NeoGAF ModBot MonkeyBot")
 
+## Features
+- "In library" highlighting for raffles
+- Adds clickable links to games that you don't own yet
+
 ## How-to use
 1. Download [GreaseMonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (Firefox) or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) (Chrome)
 2. Open [this link](https://github.com/petetnt/neogaf-monkeybot/raw/master/neogaf-monkeybot.user.js). *Monkey should prompt you for install.
 3. `OPTIONAL` Edit the script and add your Steam profile name and a SteamAPI key. You can also add your SteamID64-value but it's also automatically retrieved, based on your Steam profile name.
-4. Navigate to [NeoGAF](http://neogaf.com/forum)
-
-## Features
-- "In library" highlighting for raffles
-- Adds clickable links to games that you don't own yet
+4. Navigate to [NeoGAF](http://neogaf.com/forum) and start collecting games!
+5. `FIRST TIME INSTALL`: If you didn't do the step 3., NeoGAF should now prompt you for your Steam profile name and the Steam API key
 
 ## FAQ
 ### Where to get a SteamAPI key?
