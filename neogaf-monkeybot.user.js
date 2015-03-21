@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.1.3
+// @version      0.2.0
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://*.neogaf.com/forum/showthread.php?*
@@ -41,8 +41,30 @@ function parseOwnedGames(json) {
 
 function checkIfOwnedOnSteam(name, line) {
     'use strict';
-    return ownedGames.indexOf(name.toLowerCase().replace("/:-™/gi", "")) !== -1 && !/uPlay|\(GOG\)|\(Origin\)|Desura/.test(line);
+    return ownedGames.indexOf(name.toLowerCase().replace("/:-™/gi", "")) !== -1 && !/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line);
 }
+
+function checkIfHasCards($elem, name) {
+    'use strict';
+    var url = "http://api.steamcardsheet.com/data/Games/?name=" + encodeURIComponent(name) + "&trading_card=True";
+
+    GM_xmlhttpRequest({ // jshint ignore:line
+        method: "GET",
+        url: url,
+        onload: function(xhr) {
+            var json = JSON.parse(xhr.responseText);
+            if (json.length) {
+                if (json[0].cards.length) {
+                    $elem.html($elem.html().replace(name, "<img src='http://cdn.steamcommunity.com/economy/emoticon/tradingcard' alt='Steam Trading Card emoticon'>" + " " + name));
+                }    
+            }
+        },
+        onerror: function() {
+            console.error("MonkeyBot - Failed to retrieve if the game has cards");
+        }
+    });
+}
+
 
 function matchGames() {
     'use strict';
@@ -60,6 +82,7 @@ function matchGames() {
             } else {
                 if (!/Taken by/.test(line)) {
                     $elem.html($elem.html().replace(name, "<a class='sendModbotMessage' data-modbotline='" + line + "' title='Click me to message ModBot' href='" + modBotUrl + "'>" + name + "</a>"));
+                    checkIfHasCards($elem, name);
                 }
             }
         });

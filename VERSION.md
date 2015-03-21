@@ -1,4 +1,7 @@
 # Version history
+## 0.2.0
+* Check if the available games have cards via [Steam Card Sheet API](http://www.steamcardsheet.com/api.html)
+
 ## 0.1.2
 * Fix for #3
 * Fixes an massive oversight that might have led peoples with tons of games localStorage to fill up, sorry about that!
