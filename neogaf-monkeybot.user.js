@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      0.2.0
+// @version      0.3.0
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://*.neogaf.com/forum/showthread.php?*
@@ -19,19 +19,34 @@ var steamProfileName = localStorage.getItem("monkeyBot_steamProfileName")       
     ownedGames =       JSON.parse(localStorage.getItem("monkeyBot_steamGameList"))   || [],
     lastUpdate =       localStorage.getItem("monkeyBot_steamGameListUpdatedOn")      || "",
     modBotUrl =        "http://www.neogaf.com/forum/private.php?do=newpm&u=253996",
-    modBotPosts =      $("[data-username='ModBot']");
+    modBotPosts =      $("[data-username='ModBot']"),
+    modBotSelfPosts =  $("a[href='member.php?u=253996']").closest(".postbit").find(".post"),
+    allPosts = modBotPosts.add(modBotSelfPosts);
 
+/**
+ * Sanitizes names of the games
+ * @param   {string} name Name of the game
+ * @returns {string} sanitized name
+ */
+function sanitizeName(name) {
+    'use strict';
+    return name.toLowerCase().replace(/\W+/gi, "");
+}   
+
+/**
+ * Parses owned games from json response
+ * @param {object} json - Json response
+ */
 function parseOwnedGames(json) {
     'use strict';
     var games = json.games,
         game = null;
 
     ownedGames = [];
-    for (game in games) {
-        if (games.hasOwnProperty(game)) {
-            ownedGames.push(games[game].name.toLowerCase().replace("/:-™/gi", ""));
-        }
-    }
+    games.forEach(function (game) {
+        var name = sanitizeName(game.name);
+        ownedGames.push(name);
+    });
 
     localStorage.setItem("monkeyBot_steamGameList", JSON.stringify(ownedGames));
     localStorage.setItem("monkeyBot_steamGameListUpdatedOn", new Date().toDateString());
@@ -39,40 +54,28 @@ function parseOwnedGames(json) {
     matchGames();
 }
 
+/**
+ * Checks if user owns the game on steam
+ * @param   {string}  name Name of the game
+ * @param   {line}    line Modbot line of the game
+ * @returns {boolean} true if owned, false if not
+ */
 function checkIfOwnedOnSteam(name, line) {
-    'use strict';
-    return ownedGames.indexOf(name.toLowerCase().replace("/:-™/gi", "")) !== -1 && !/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line);
+    'use strict'
+    name = sanitizeName(name);
+    return ownedGames.indexOf(name) !== -1 && !/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line);
 }
 
-function checkIfHasCards($elem, name) {
-    'use strict';
-    var url = "http://api.steamcardsheet.com/data/Games/?name=" + encodeURIComponent(name) + "&trading_card=True";
-
-    GM_xmlhttpRequest({ // jshint ignore:line
-        method: "GET",
-        url: url,
-        onload: function(xhr) {
-            var json = JSON.parse(xhr.responseText);
-            if (json.length) {
-                if (json[0].cards.length) {
-                    $elem.html($elem.html().replace(name, "<img src='http://cdn.steamcommunity.com/economy/emoticon/tradingcard' alt='Steam Trading Card emoticon'>" + " " + name));
-                }    
-            }
-        },
-        onerror: function() {
-            console.error("MonkeyBot - Failed to retrieve if the game has cards");
-        }
-    });
-}
-
-
+/**
+ * Matches games from the modpot posts and replaces the markup on the page
+ */
 function matchGames() {
     'use strict';
-    modBotPosts.each(function (idx, elem) {
+    allPosts.each(function (idx, elem) {
         var $elem = $(elem),
             text = $elem.text(),
-            giveaways = text.match(/^ *(.*\b(?:MB-)\b.*)/gm);
-
+            giveaways = text.match(/^ *(.*\b(?:MB-)\b.*)/gmi);
+        console.log(text);
         Object.keys(giveaways || {}).forEach(function (key) {
             var line = giveaways[key],
                 name = line.split("--")[0].trim();
@@ -82,7 +85,6 @@ function matchGames() {
             } else {
                 if (!/Taken by/.test(line)) {
                     $elem.html($elem.html().replace(name, "<a class='sendModbotMessage' data-modbotline='" + line + "' title='Click me to message ModBot' href='" + modBotUrl + "'>" + name + "</a>"));
-                    checkIfHasCards($elem, name);
                 }
             }
         });
@@ -98,7 +100,9 @@ function matchGames() {
     });
 }
 
-
+/**
+ * Retrieves steam ID
+ */
 function getSteamID() {
     'use strict';
     var url = "http://steamcommunity.com/id/" + steamProfileName + "/?xml=1";
@@ -118,6 +122,9 @@ function getSteamID() {
     });
 }
 
+/**
+ * Handles the loading of Steam games
+ */
 function loadOwnedGames() {
     'use strict';
     if (!steamID) {
@@ -162,9 +169,7 @@ function loadOwnedGames() {
     });
 }
 
-if (window.top !== window.self) {
-    return;
-} else {
+if (window.top === window.self) {
     var href = window.location.href;
     if (/showpost|showthread/.test(href) && modBotPosts.length) {
         if (ownedGames.length === 0 || new Date().toDateString !== lastUpdate || localStorage.getItem("monkeyBot_version") !== GM_info.script.version) { // jshint ignore:line
@@ -181,6 +186,9 @@ if (window.top !== window.self) {
     }
 }
 
+/** 
+ * Sets up the style sheet
+ */
 (function () {
     'use strict';
     var head,
