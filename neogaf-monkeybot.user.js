@@ -8,6 +8,7 @@
 // @match        http://*.neogaf.com/forum/showpost.php?*
 // @match        http://*.neogaf.com/forum/private.php?do=newpm&u=253996
 // @require      http://code.jquery.com/jquery-latest.js
+// @connect      api.steampowered.com
 // @grant        GM_xmlhttpRequest
 // @run-at       document-end
 

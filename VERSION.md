@@ -1,4 +1,7 @@
 # Version history
+## 0.4.0
+* Added @connect param to api.steampowered.com
+
 ## 0.3.0
 * Removed the card check due to [Steam Card Sheet API](http://www.steamcardsheet.com/api.html) not existing anymore
 * Improved game handling and bug fixes
