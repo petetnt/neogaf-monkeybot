@@ -1,4 +1,8 @@
 # Version history
+## 1.0.0
+* Small rewrite started
+* Now linted with `ESLint`
+
 ## 0.4.0
 * Added @connect param to api.steampowered.com
 

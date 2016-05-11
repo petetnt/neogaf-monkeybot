@@ -10,9 +10,9 @@ Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot
 ## How-to use
 1. Download [GreaseMonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (Firefox) or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) (Chrome)
 2. Open [this link](https://github.com/petetnt/neogaf-monkeybot/raw/master/neogaf-monkeybot.user.js). *Monkey should prompt you for install.
-3. `OPTIONAL` Edit the script and add your Steam profile name and a SteamAPI key. You can also add your SteamID64-value but it's also automatically retrieved, based on your Steam profile name.
-4. Navigate to [NeoGAF](http://neogaf.com/forum) and start collecting games!
-5. `FIRST TIME INSTALL`: If you didn't do the step 3., NeoGAF should now prompt you for your Steam profile name and the Steam API key
+3. Navigate to [NeoGAF](http://neogaf.com/forum)
+4. Follow the instructions prompted to you: NeoGAF should now prompt you for your Steam profile name and the Steam API key...
+5. ... and start collecting games!
 
 ## FAQ
 ### Where to get a SteamAPI key?

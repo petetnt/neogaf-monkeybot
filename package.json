@@ -1,0 +1,29 @@
+{
+  "name": "neogaf-monkeybot",
+  "version": "1.0.0",
+  "description": "Greasemonkey / Tampermonkey scripts that make NeoGAFs ModBot usage a bit more fun",
+  "main": "neogaf-monkeybot.user.js",
+  "scripts": {
+    "test": "echo \"no tests :(\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petetnt/neogaf-monkeybot.git"
+  },
+  "keywords": [
+    "neogaf",
+    "greasemonkey",
+    "tampermonkey"
+  ],
+  "author": "Pete Nykänen <pete.a.nykanen@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/petetnt/neogaf-monkeybot/issues"
+  },
+  "homepage": "https://github.com/petetnt/neogaf-monkeybot#readme",
+  "devDependencies": {
+    "eslint": "^2.9.0",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.8.0"
+  }
+}
