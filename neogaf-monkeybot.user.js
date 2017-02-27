@@ -20,7 +20,8 @@ var lastUpdate = localStorage.getItem("monkeyBot_steamGameListUpdatedOn") || "";
 var modBotUrl = "http://www.neogaf.com/forum/private.php?do=newpm&u=253996";
 var modBotPosts = $("[data-username='ModBot']");
 var modBotSelfPosts = $("a[href='member.php?u=253996']").closest(".postbit").find(".post");
-var allPosts = modBotPosts.add(modBotSelfPosts);var storeUrl = "http://store.steampowered.com/search/?term=";
+var allPosts = modBotPosts.add(modBotSelfPosts);
+var storeUrl = "http://store.steampowered.com/search/?term=";
 
 /**
  * Sanitizes names of the games
