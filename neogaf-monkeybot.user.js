@@ -66,6 +66,7 @@ function matchGames() {
         Object.keys(giveaways || {}).forEach(function mapGiveaways(key) {
             var line = giveaways[key];
             var name = line.split("--")[0].trim();
+            var modbotcode = line.split("--")[1].trim();
 
             if (checkIfOwnedOnSteam(name, line)) {
                 $elem.html(
@@ -79,9 +80,13 @@ function matchGames() {
                     $elem.html(
                         $elem.html().replace(
                             name,
-                            "<a class='visitSteamStorePage' data-modbotline='" + line + "' " +
+                            "<a class='visitSteamStorePage' " +
                             "title='Click me to visit the Steam store' " +
                             "href='" + storeUrl + name + "'>" + name + "</a>"
+							" -- " +
+							"<a class='sendModbotMessage' data-modbotline='" + line + "' " +
+                            "title='Click me to message ModBot' " +
+                            "href='" + modBotUrl + "'>" + modbotcode + "</a>"
                         ));
                 }
             }
