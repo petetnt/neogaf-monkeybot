@@ -22,6 +22,7 @@ var modBotPosts = $("[data-username='ModBot']");
 var modBotSelfPosts = $("a[href='member.php?u=253996']").closest(".postbit").find(".post");
 var allPosts = modBotPosts.add(modBotSelfPosts);
 var storeUrl = "http://store.steampowered.com/search/?term=";
+var storePageUrl = "http://store.steampowered.com/app/";
 
 /**
  * Sanitizes names of the games
@@ -73,7 +74,11 @@ function matchGames() {
                     $elem.html().replace(
                         name,
                         "<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span>" +
-                        "<span class='inLibraryText'>" + name + "</span>"
+                        "<span class='inLibraryText'>" +
+				"<a class='visitSteamStorePageOwnedGame' " +
+                            	"title='Click me to visit the Steam store page of your game' " +
+                            	"href='" + storePageUrl + appid + "/'>" + name + "</a>" +    
+			+ "</span>"
                     ));
             } else {
                 if (!/Taken by/.test(line)) {
