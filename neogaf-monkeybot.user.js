@@ -82,9 +82,9 @@ function matchGames() {
                             name,
                             "<a class='visitSteamStorePage' " +
                             "title='Click me to visit the Steam store' " +
-                            "href='" + storeUrl + name + "'>" + name + "</a>"
-							" -- " +
-							"<a class='sendModbotMessage' data-modbotline='" + line + "' " +
+                            "href='" + storeUrl + name + "'>" + name + "</a>" +
+			    " -- " +
+			    "<a class='sendModbotMessage' data-modbotline='" + line + "' " +
                             "title='Click me to message ModBot' " +
                             "href='" + modBotUrl + "'>" + modbotcode + "</a>"
                         ));
