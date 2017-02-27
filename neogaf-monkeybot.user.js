@@ -23,6 +23,8 @@ var modBotSelfPosts = $("a[href='member.php?u=253996']").closest(".postbit").fin
 var allPosts = modBotPosts.add(modBotSelfPosts);
 var storeUrl = "http://store.steampowered.com/search/?term=";
 var storePageUrl = "http://store.steampowered.com/app/";
+var allGames = JSON.parse(localStorage.getItem("monkeyBot_steamGameWholeList")) || [];
+var lastWholeGameListUpdate = localStorage.getItem("monkeyBot_steamGameWholeListUpdatedOn") || "";
 
 /**
  * Sanitizes names of the games
@@ -43,6 +45,24 @@ function checkIfOwnedOnSteam(name, line) {
     return ownedGames.indexOf(sanitizeName(name)) !== -1
         && !/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line);
 }
+
+/**
+ * Gets a map { appid, sanitizedName } if the game exists on the Steam store
+ * @param   {string}  name Name of the game
+ * @param   {line}    line Modbot line of the game
+ * @returns {map} 	  a map { appid, sanitizedName } if the game exists on the Steam store, false if not
+ */
+function getIfOnSteam(name, line) {
+    if (!/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line)) {
+      return false;
+    }
+
+    return allGames.find(game => {
+      return game.name === name;
+    })
+}
+
+/**
 
 /**
  * Navigate to the PM page for the game you clicked
@@ -69,6 +89,16 @@ function matchGames() {
             var name = line.split("--")[0].trim();
             var modbotcode = line.split("--")[1].trim();
 
+	
+		var urlToShow = storeUrl + name;
+			
+		var game = getIfOnSteam(name, line);
+		if(game) {
+			/** inside this block we can access the appid of the game with game.appid **/
+			urlToShow = storePageUrl + game.appid;
+		}
+					
+		
             if (checkIfOwnedOnSteam(name, line)) {
                 $elem.html(
                     $elem.html().replace(
@@ -77,7 +107,7 @@ function matchGames() {
                         "<span class='inLibraryText'>" +
 				"<a class='visitSteamStorePageOwnedGame' " +
                             	"title='Click me to visit the Steam store page of your game' " +
-                            	"href='" + storePageUrl + appid + "/'>" + name + "</a>" +    
+                            	"href='" + urlToShow + "/'>" + name + "</a>" +    
 			+ "</span>"
                     ));
             } else {
@@ -87,7 +117,7 @@ function matchGames() {
                             name,
                             "<a class='visitSteamStorePage' " +
                             "title='Click me to visit the Steam store' " +
-                            "href='" + storeUrl + name + "'>" + name + "</a>" +
+                            "href='" + urlToShow + "'>" + name + "</a>" +				
 			    " -- " +
 			    "<a class='sendModbotMessage' data-modbotline='" + line + "' " +
                             "title='Click me to message ModBot' " +
@@ -108,9 +138,8 @@ function matchGames() {
  * @param {object} json - Json response
  */
 function parseOwnedGames(json) {
-    var games = json.games;
 
-    ownedGames = games.map(function map(game) {
+    ownedGames = json.map(function map(game) {
         return sanitizeName(game.name);
     });
 
@@ -119,6 +148,26 @@ function parseOwnedGames(json) {
     localStorage.setItem("monkeyBot_version", GM_info.script.version); // jshint ignore:line
     matchGames();
 }
+
+/*
+ * Parses the whole list of Steam games from json response
+ * @param {object} json - Json response
+ */
+function parseAllGames(json) {
+    
+    allGames = json.map(function map(game) {
+        return {
+           appid: game.appid,
+           sanitizedName: sanitizeName(game.name),
+       }
+    });
+
+    localStorage.setItem("monkeyBot_steamGameWholeList", JSON.stringify(allGames));
+    localStorage.setItem("monkeyBot_steamGameWholeListUpdatedOn", new Date().toDateString());
+    localStorage.setItem("monkeyBot_version", GM_info.script.version); // jshint ignore:line
+}
+
+/**
 
 /**
  * Gets the Steam profile name
@@ -205,13 +254,33 @@ function loadOwnedGames(steamID) {
         method: "GET",
         url: url,
         onload: function onLoad(response) {
-            parseOwnedGames(JSON.parse(response.responseText).response);
+            parseOwnedGames(JSON.parse(response.responseText).response.games);
         },
         onerror: function onError() {
             console.error("MonkeyBot - Retrieving Steam Game List failed. Try again later");
         }
     });
 }
+
+ /**
+ * Handles the loading of the whole list of Steam games
+ */
+function loadAllGames() {
+    var url = "http://api.steampowered.com/ISteamApps/GetAppList/v0001/";
+
+    GM_xmlhttpRequest({ // eslint-disable-line new-cap
+        method: "GET",
+        url: url,
+        onload: function onLoad(response) {
+            parseAllGames(JSON.parse(response.responseText).applist.apps.app);
+        },
+        onerror: function onError() {
+            console.error("MonkeyBot - Retrieving Whole Steam Game List failed. Try again later");
+        }
+    });
+}
+
+/**
 
 /**
  * Initializes MonkeyBot
@@ -228,6 +297,13 @@ function init() {
 
         if (window.top === window.self) {
             if (/showpost|showthread/.test(href) && modBotPosts.length) {
+		    
+		if (!allGames.length ||
+                    new Date().toDateString() !== lastWholeGameListUpdate ||
+                    localStorage.getItem("monkeyBot_version") !== GM_info.script.version) {
+                    loadAllGames();
+                }			    
+		    
                 if (!ownedGames.length ||
                     new Date().toDateString() !== lastUpdate ||
                     localStorage.getItem("monkeyBot_version") !== GM_info.script.version) {
@@ -235,6 +311,7 @@ function init() {
                 } else {
                     matchGames();
                 }
+		    
             } else if (/private/.test(href)) {
                 if (raffleLine) {
                     $("textarea[name='message']").val(raffleLine);
