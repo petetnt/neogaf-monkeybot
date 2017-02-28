@@ -57,7 +57,7 @@ function getIfOnSteam(name, line) {
       return false;
     }
 
-    return allGames.find(game, function findGame() {
+    return allGames.find(function findGame(game) {
       return game.sanitizedName === sanitizeName(name);
     });
 }
