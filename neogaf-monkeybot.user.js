@@ -73,11 +73,13 @@ function clickHandler(event) {
     window.location.href = modBotUrl;
 }
 
-/*
- * Escape special characters to be able to treat games such as "Cosmic Dust & Rust" with a "&"
- * See: https://stackoverflow.com/questions/784586/
- *      http://stackoverflow.com/questions/1787322/
- */
+/**
+  * Escape special characters to be able to treat games such as "Cosmic Dust & Rust" with a "&"
+  * See: https://stackoverflow.com/questions/784586/ and http://stackoverflow.com/questions/1787322/
+  * 
+  * @param {string} text - text to escape
+  * @returns {string} - modified text
+  */
 function escapeHtml(text) {
   var map = {
     '&': '&amp;',
