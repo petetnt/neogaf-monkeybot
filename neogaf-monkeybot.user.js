@@ -117,30 +117,30 @@ function matchGames() {
             if (checkIfOwnedOnSteam(name, line)) {
                 $elem.html(
                     $elem.html().replace(
-						escapeHtml(name),
-						"<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span>" +
-						"<span class='inLibraryText'>" +
-						"<a class='visitSteamStorePageOwnedGame' " +
-						"title='Click me to visit the Steam store page of your game' " +
-						"href='" + urlToShow + "/'>" + name + "</a>"     
-						+ "</span>"
+			escapeHtml(name),
+			"<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span>" +
+			"<span class='inLibraryText'>" +
+			"<a class='visitSteamStorePageOwnedGame' " +
+			"title='Click me to visit the Steam store page of your game' " +
+			"href='" + urlToShow + "/'>" + name + "</a>"     
+			+ "</span>"
                     ));
             } else {
+			$elem.html(
+				$elem.html().replace(
+					escapeHtml(name),
+					"<a class='visitSteamStorePage' " +
+					"title='Click me to visit the Steam store' " +
+					"href='" + urlToShow + "'>" + name + "</a>"
+				));						    
+			if (!/Taken by/.test(line)) {
 				$elem.html(
 					$elem.html().replace(
-						escapeHtml(name),
-						"<a class='visitSteamStorePage' " +
-						"title='Click me to visit the Steam store' " +
-						"href='" + urlToShow + "'>" + name + "</a>"
-					));						    
-				if (!/Taken by/.test(line)) {
-					$elem.html(
-						$elem.html().replace(
-						modbotcode,
-						"<a class='sendModbotMessage' data-modbotline='" + line + "' " +
-						"title='Click me to message ModBot' " +
-						"href='" + modBotUrl + "'>" + modbotcode + "</a>"
-					));
+					modbotcode,
+					"<a class='sendModbotMessage' data-modbotline='" + line + "' " +
+					"title='Click me to message ModBot' " +
+					"href='" + modBotUrl + "'>" + modbotcode + "</a>"
+				));
                 }
             }
         });
