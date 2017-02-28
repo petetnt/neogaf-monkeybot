@@ -86,7 +86,7 @@ function escapeHtml(text) {
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
-    "'": '&#039;'
+    "'": '&#039;',
   };
 
   return text.replace(/[&<>"']/g, function renameChar(m) { return map[m]; });
