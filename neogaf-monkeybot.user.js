@@ -111,14 +111,14 @@ function matchGames() {
 			+ "</span>"
                     ));
             } else {
-                if (!/Taken by/.test(line)) {
                     $elem.html(
                         $elem.html().replace(
                             name,
 				"<a class='visitSteamStorePage' " +
 				"title='Click me to visit the Steam store' " +
 				"href='" + urlToShow + "'>" + name + "</a>"
-                            ));				
+                            ));						    
+                if (!/Taken by/.test(line)) {
                     $elem.html(
                         $elem.html().replace(
                             modbotcode,
