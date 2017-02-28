@@ -63,8 +63,6 @@ function getIfOnSteam(name, line) {
 }
 
 /**
-
-/**
  * Navigate to the PM page for the game you clicked
  * @param {Event} event - Click event
  */
