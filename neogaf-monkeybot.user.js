@@ -43,22 +43,24 @@ function sanitizeName(name) {
  */
 function checkIfOwnedOnSteam(name, line) {
     return ownedGames.indexOf(sanitizeName(name)) !== -1
-        && !/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line);
+    && !/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line);
 }
 
 /**
-  * Gets a map { appid, sanitizedName } if the game exists on the Steam store
-  * @param {string} name - Name of the game
-  * @param {string} line - Modbot line of the game
-  * @returns {object|boolean|null} - object of { appid, sanitizedName } if the game exists on the Steam store, false if not a Steam game, null if not found
+ * Gets a map { appid, sanitizedName } if the game exists on the Steam store
+ * @param {string} name - Name of the game
+ * @param {string} line - Modbot line of the game
+ * @returns {object|boolean|null} - object of { appid, sanitizedName }
+ *                                if the game exists on the Steam store,
+ *                                false if not a Steam game, null if not found
  */
 function getIfOnSteam(name, line) {
     if (/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line)) {
-      return false;
+        return false;
     }
 
     return allGames.find(function findGame(game) {
-      return game.sanitizedName === sanitizeName(name);
+        return game.sanitizedName === sanitizeName(name);
     });
 }
 
@@ -76,20 +78,20 @@ function clickHandler(event) {
 /**
   * Escape special characters to be able to treat games such as "Cosmic Dust & Rust" with a "&"
   * See: https://stackoverflow.com/questions/784586/ and http://stackoverflow.com/questions/1787322/
-  * 
+  *
   * @param {string} text - text to escape
   * @returns {string} - modified text
   */
 function escapeHtml(text) {
-  var map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  };
+    var map = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;"
+    };
 
-  return text.replace(/[&<>"']/g, function renameChar(m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function renameChar(m) { return map[m]; });
 }
 
 /**
@@ -105,42 +107,42 @@ function matchGames() {
             var line = giveaways[key];
             var name = line.split("--")[0].trim();
             var modbotcode = line.split("--")[1].trim();
-			
-			var urlToShow = storeUrl + name;
 
-			var game = getIfOnSteam(name, line);
-			if (game) {
-				/** inside this block we can access the appid of the game with game.appid **/
-				urlToShow = storePageUrl + game.appid;
-			}					
-		
+            var urlToShow = storeUrl + name;
+
+            var game = getIfOnSteam(name, line);
+            if (game) {
+                /** inside this block we can access the appid of the game with game.appid **/
+                urlToShow = storePageUrl + game.appid;
+            }
+
             if (checkIfOwnedOnSteam(name, line)) {
                 $elem.html(
                     $elem.html().replace(
-			escapeHtml(name),
-			"<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span>" +
-			"<span class='inLibraryText'>" +
-			"<a class='visitSteamStorePageOwnedGame' " +
-			"title='Click me to visit the Steam store page of your game' " +
-			"href='" + urlToShow + "/'>" + name + "</a>"     
-			+ "</span>"
+                        escapeHtml(name),
+                        "<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span>" +
+                        "<span class='inLibraryText'>" +
+                        "<a class='visitSteamStorePageOwnedGame' " +
+                        "title='Click me to visit the Steam store page of your game' " +
+                        "href='" + urlToShow + "/'>" + name + "</a>"
+                        + "</span>"
                     ));
             } else {
-			$elem.html(
-				$elem.html().replace(
-					escapeHtml(name),
-					"<a class='visitSteamStorePage' " +
-					"title='Click me to visit the Steam store' " +
-					"href='" + urlToShow + "'>" + name + "</a>"
-				));						    
-			if (!/Taken by/.test(line)) {
-				$elem.html(
-					$elem.html().replace(
-					modbotcode,
-					"<a class='sendModbotMessage' data-modbotline='" + line + "' " +
-					"title='Click me to message ModBot' " +
-					"href='" + modBotUrl + "'>" + modbotcode + "</a>"
-				));
+                $elem.html(
+                    $elem.html().replace(
+                        escapeHtml(name),
+                        "<a class='visitSteamStorePage' " +
+                        "title='Click me to visit the Steam store' " +
+                        "href='" + urlToShow + "'>" + name + "</a>"
+                    ));
+                if (!/Taken by/.test(line)) {
+                    $elem.html(
+                        $elem.html().replace(
+                            modbotcode,
+                            "<a class='sendModbotMessage' data-modbotline='" + line + "' " +
+                            "title='Click me to message ModBot' " +
+                            "href='" + modBotUrl + "'>" + modbotcode + "</a>"
+                        ));
                 }
             }
         });
@@ -170,12 +172,12 @@ function parseOwnedGames(json) {
  * Parses the whole list of Steam games from json response
  * @param {object} json - Json response
  */
-function parseAllGames(json) {    
+function parseAllGames(json) {
     allGames = json.map(function map(game) {
         return {
-           appid: game.appid,
-           sanitizedName: sanitizeName(game.name),
-       }
+            appid: game.appid,
+            sanitizedName: sanitizeName(game.name)
+        };
     });
 
     localStorage.setItem("monkeyBot_steamGameWholeList", JSON.stringify(allGames));
@@ -231,7 +233,7 @@ function getSteamID(callback) {
         },
         onerror: function onError(err) {
             console.error("MonkeyBot - Retrieving SteamID failed." +
-                            "Make sure you have correcly entered your Steam profile name");
+                          "Make sure you have correcly entered your Steam profile name");
             console.log(err);
         }
     });
@@ -278,7 +280,7 @@ function loadOwnedGames(steamID) {
     });
 }
 
- /**
+/**
  * Handles the loading of the whole list of Steam games
  */
 function loadAllGames() {
@@ -313,13 +315,12 @@ function init() {
 
         if (window.top === window.self) {
             if (/showpost|showthread/.test(href) && modBotPosts.length) {
-		    
-		if (!allGames.length ||
+                if (!allGames.length ||
                     new Date().toDateString() !== lastWholeGameListUpdate ||
                     localStorage.getItem("monkeyBot_version") !== GM_info.script.version) {
                     loadAllGames();
-                }			    
-		    
+                }
+
                 if (!ownedGames.length ||
                     new Date().toDateString() !== lastUpdate ||
                     localStorage.getItem("monkeyBot_version") !== GM_info.script.version) {
@@ -327,7 +328,6 @@ function init() {
                 } else {
                     matchGames();
                 }
-		    
             } else if (/private/.test(href)) {
                 if (raffleLine) {
                     $("textarea[name='message']").val(raffleLine);
