@@ -58,7 +58,7 @@ function getIfOnSteam(name, line) {
     }
 
     return allGames.find(game => {
-      return game.sanitizedName === name;
+      return game.sanitizedName === sanitizeName(name);
     })
 }
 
@@ -92,8 +92,7 @@ function matchGames() {
 	
 		var urlToShow = storeUrl + name;
 			
-		var saneName = sanitizeName(name);
-		var game = getIfOnSteam(saneName, line);
+		var game = getIfOnSteam(Name, line);
 		if(game) {
 			/** inside this block we can access the appid of the game with game.appid **/
 			urlToShow = storePageUrl + game.appid;
