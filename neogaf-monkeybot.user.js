@@ -75,6 +75,23 @@ function clickHandler(event) {
     window.location.href = modBotUrl;
 }
 
+/*
+ * Escape special characters to be able to treat games such as "Cosmic Dust & Rust" with a "&"
+ * See: https://stackoverflow.com/questions/784586/
+ *      http://stackoverflow.com/questions/1787322/
+ */
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 /**
  * Matches games from the modpot posts and replaces the markup on the page
  */
@@ -102,7 +119,7 @@ function matchGames() {
             if (checkIfOwnedOnSteam(name, line)) {
                 $elem.html(
                     $elem.html().replace(
-                        name,
+                        escapeHtml(name),
                         "<span class='inLibraryFlag'>IN LIBRARY &nbsp;&nbsp</span>" +
                         "<span class='inLibraryText'>" +
 				"<a class='visitSteamStorePageOwnedGame' " +
@@ -113,7 +130,7 @@ function matchGames() {
             } else {
                     $elem.html(
                         $elem.html().replace(
-                            name,
+                            escapeHtml(name),
 				"<a class='visitSteamStorePage' " +
 				"title='Click me to visit the Steam store' " +
 				"href='" + urlToShow + "'>" + name + "</a>"
