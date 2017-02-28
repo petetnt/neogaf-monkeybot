@@ -92,7 +92,8 @@ function matchGames() {
 	
 		var urlToShow = storeUrl + name;
 			
-		var game = getIfOnSteam(name, line);
+		var saneName = sanitizeName(name);
+		var game = getIfOnSteam(saneName, line);
 		if(game) {
 			/** inside this block we can access the appid of the game with game.appid **/
 			urlToShow = storePageUrl + game.appid;
