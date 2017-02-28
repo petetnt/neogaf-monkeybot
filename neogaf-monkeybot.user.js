@@ -115,13 +115,16 @@ function matchGames() {
                     $elem.html(
                         $elem.html().replace(
                             name,
-                            "<a class='visitSteamStorePage' " +
-                            "title='Click me to visit the Steam store' " +
-                            "href='" + urlToShow + "'>" + name + "</a>" +				
-			    " -- " +
-			    "<a class='sendModbotMessage' data-modbotline='" + line + "' " +
-                            "title='Click me to message ModBot' " +
-                            "href='" + modBotUrl + "'>" + modbotcode + "</a>"
+				"<a class='visitSteamStorePage' " +
+				"title='Click me to visit the Steam store' " +
+				"href='" + urlToShow + "'>" + name + "</a>"
+                            ));				
+                    $elem.html(
+                        $elem.html().replace(
+                            modbotcode,
+				"<a class='sendModbotMessage' data-modbotline='" + line + "' " +
+				"title='Click me to message ModBot' " +
+				"href='" + modBotUrl + "'>" + modbotcode + "</a>"
                         ));
                 }
             }
