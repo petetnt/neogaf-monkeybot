@@ -124,7 +124,7 @@ function matchGames() {
                         "<span class='inLibraryText'>" +
 				"<a class='visitSteamStorePageOwnedGame' " +
                             	"title='Click me to visit the Steam store page of your game' " +
-                            	"href='" + urlToShow + "/'>" + name + "</a>" +    
+                            	"href='" + urlToShow + "/'>" + name + "</a>"     
 			+ "</span>"
                     ));
             } else {
