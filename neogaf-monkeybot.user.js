@@ -53,7 +53,7 @@ function checkIfOwnedOnSteam(name, line) {
  * @returns {map} 	  a map { appid, sanitizedName } if the game exists on the Steam store, false if not
  */
 function getIfOnSteam(name, line) {
-    if (!/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line)) {
+    if (/uPlay|\(GoG\)|\(Origin\)|Desura/.test(line)) {
       return false;
     }
 
