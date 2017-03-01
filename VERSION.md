@@ -1,4 +1,7 @@
 # Version history
+## 1.1.0
+* Game names now point to Steam store pages (#5)
+
 ## 1.0.0
 * Small rewrite started
 * Now linted with `ESLint`
