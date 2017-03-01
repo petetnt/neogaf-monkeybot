@@ -314,7 +314,7 @@ function init() {
         }
 
         if (window.top === window.self) {
-            if (/showpost|showthread/.test(href) && modBotPosts.length) {
+            if (/showpost|showthread/.test(href) && allPosts.length) {
                 if (!allGames.length ||
                     new Date().toDateString() !== lastWholeGameListUpdate ||
                     localStorage.getItem("monkeyBot_version") !== GM_info.script.version) {
