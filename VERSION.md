@@ -1,6 +1,10 @@
 # Version history
+## 1.2.0
+* The all the lines have nice icons now! (@mhvuze (#9))
+* Anonymous modbot giveaways work again! (@woctezuma (#11))
+
 ## 1.1.0
-* Game names now point to Steam store pages (#5)
+* Game names now point to Steam store pages (@woctezuma (#5))
 
 ## 1.0.0
 * Small rewrite started
