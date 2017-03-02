@@ -334,6 +334,17 @@ function init() {
                 } else {
                     matchGames();
                 }
+                
+                document.addEventListener("LiveThreadUpdate", function () { 
+                        
+                    modBotPosts = $("[data-username='ModBot']");
+                    modBotSelfPosts = $("a[href='member.php?u=253996']").closest(".postbit").find(".post");
+                    allPosts = modBotPosts.add(modBotSelfPosts);
+
+                    matchGames(); 
+
+                });
+                
             } else if (/private/.test(href)) {
                 if (raffleLine) {
                     $("input[name='title']").val("Giveaway");
