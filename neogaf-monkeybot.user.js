@@ -124,7 +124,7 @@ function matchGames() {
                         "<span class='inLibraryText'>" +
                         "<a class='visitSteamStorePageOwnedGame' " +
                         "title='Click me to visit the Steam store page of your game' " +
-                        "href='" + urlToShow + "/'>" + name + "</a>"
+                        "href='" + urlToShow + "/'>" + escapeHtml(name) + "</a>"
                         + "</span>"
                     ));
             } else {
@@ -140,7 +140,7 @@ function matchGames() {
                             "<span class='sendPMText'>" + 
                             "<a class='visitSteamStorePage' " +
                             "title='Click me to visit the Steam store' " +
-                            "href='" + urlToShow + "/'>" + name + "</a>" +
+                            "href='" + urlToShow + "/'>" + escapeHtml(name) + "</a>" +
                             "</span>"                            
                         ));
                 }
@@ -149,7 +149,7 @@ function matchGames() {
                         $elem.html().replace(
                             escapeHtml(name),
                             "<span class='takenFlag'>&nbsp;CLAIMED &nbsp;&nbsp</span>" +
-                            "<span class='takenText'>" + name + "</span>"
+                            "<span class='takenText'>" + escapeHtml(name) + "</span>"
                         ));
                 }
             }
