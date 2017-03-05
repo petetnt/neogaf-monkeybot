@@ -1,4 +1,8 @@
 # Version history
+## 1.2.1
+* Fix HTML escaping (@nikop (#15))
+* Do not escape and replace single quote (just as NeoGAF does) (@woctezuma (#16))
+
 ## 1.2.0
 * The all the lines have nice icons now! (@mhvuze (#9))
 * Anonymous modbot giveaways work again! (@woctezuma (#11))

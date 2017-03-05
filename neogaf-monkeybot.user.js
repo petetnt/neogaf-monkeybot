@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      1.2.0
+// @version      1.2.1
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://*.neogaf.com/forum/showthread.php?*
@@ -87,7 +87,7 @@ function escapeHtml(text) {
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
-        "\"": "&quot;",
+        "\"": "&quot;"
     };
 
     return text.replace(/[&<>"]/g, function renameChar(m) { return map[m]; });
@@ -105,7 +105,6 @@ function matchGames() {
         Object.keys(giveaways || {}).forEach(function mapGiveaways(key) {
             var line = giveaways[key];
             var name = line.split("--")[0].trim();
-            var modbotcode = line.split("--")[1].trim();
 
             var urlToShow = storeUrl + name;
 
@@ -136,14 +135,13 @@ function matchGames() {
                             "href='" + modBotUrl + "'>" +
                             "<span class='sendPMFlag'> MESSAGE &nbsp;&nbsp</span>" +
                             "</a>" +
-                            "<span class='sendPMText'>" + 
+                            "<span class='sendPMText'>" +
                             "<a class='visitSteamStorePage' " +
                             "title='Click me to visit the Steam store' " +
                             "href='" + urlToShow + "/'>" + escapeHtml(name) + "</a>" +
-                            "</span>"                            
+                            "</span>"
                         ));
-                }
-                else {
+                } else {
                     $elem.html(
                         $elem.html().replace(
                             escapeHtml(name),
@@ -333,15 +331,15 @@ function init() {
                 } else {
                     matchGames();
                 }
-                
-                document.addEventListener("LiveThreadUpdate", function () { 
+
+                document.addEventListener("LiveThreadUpdate", function updateLiveThread() {
                     modBotPosts = $("[data-username='ModBot']");
-                    modBotSelfPosts = $("a[href='member.php?u=253996']").closest(".postbit").find(".post");
+                    modBotSelfPosts = $("a[href='member.php?u=253996']")
+                        .closest(".postbit").find(".post");
                     allPosts = modBotPosts.add(modBotSelfPosts);
 
-                    matchGames(); 
+                    matchGames();
                 });
-                
             } else if (/private/.test(href)) {
                 if (raffleLine) {
                     $("input[name='title']").val("Giveaway");
