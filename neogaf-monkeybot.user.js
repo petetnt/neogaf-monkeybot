@@ -93,6 +93,12 @@ function escapeHtml(text) {
     return text.replace(/[&<>"]/g, function renameChar(m) { return map[m]; });
 }
 
+/**
+  * Escape single quotes to copy the entirety of the raffle line for a game such as "Penguins Arena: Sedna's World"
+  *
+  * @param {string} text - text to escape
+  * @returns {string} - modified text
+  */
 function escapeSingleQuote(text) {
     var map = {
         "'": "&apos;"
