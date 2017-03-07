@@ -93,6 +93,13 @@ function escapeHtml(text) {
     return text.replace(/[&<>"]/g, function renameChar(m) { return map[m]; });
 }
 
+function escapeSingleQuote(text) {
+    var map = {
+        "'": "&apos;"
+    };
+    return text.replace(/[']/g, function renameChar(m) { return map[m]; });
+}
+
 /**
  * Matches games from the modpot posts and replaces the markup on the page
  */
@@ -130,7 +137,7 @@ function matchGames() {
                     $elem.html(
                         $elem.html().replace(
                             escapeHtml(name),
-                            "<a class='sendModbotMessage' data-modbotline='" + line + "' " +
+                            "<a class='sendModbotMessage' data-modbotline='" + escapeSingleQuote(line) + "' " +
                             "title='Click me to message ModBot' " +
                             "href='" + modBotUrl + "'>" +
                             "<span class='sendPMFlag'> MESSAGE &nbsp;&nbsp</span>" +
