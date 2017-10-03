@@ -326,13 +326,13 @@ function loadAllGames() {
 function findSteamKey(href){
     var message = $("#post_message_").text();
     var giveaways = message.match(/\w{5}\-\w{5}\-\w{5}/);
-    $.each(giveaways, function(index, steamKey) {
+
+    giveaways.forEach(function(index, steamKey) {
         var redeemPage = "<a href=\"https://store.steampowered.com/account/registerkey?key=" + steamKey + "\">" + steamKey + "</a>";
         $("#post_message_").html($("#post_message_").html().replace(steamKey, redeemPage));
     });
 }
 
-/**
 /**
  * Initializes MonkeyBot
  * @throws {Error} - Error if SteamID doesn't exist
@@ -343,9 +343,10 @@ function init() {
     var raffleName = localStorage.getItem("monkeyBot_raffleName");
     
     //Run Steam key check if on private message only
-    if (window.location.pathname == "/forum/private.php")
+    if (window.location.pathname == "/forum/private.php") {
         findSteamKey(href);
-    
+    }
+
     getSteamID(function performActions(steamID) {
         if (!steamID) {
             throw new Error("There's no SteamID, aborting...");
