@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         NeoGAF MonkeyBot
 // @namespace    http://github.com/petetnt/neogaf-monkeybot
-// @version      1.2.1
+// @version      1.3.0
 // @description  Helper functions for NeoGAF's ModBot posts
 // @author       PeteTNT
 // @match        http://*.neogaf.com/forum/showthread.php?*
 // @match        http://*.neogaf.com/forum/showpost.php?*
 // @match        http://*.neogaf.com/forum/private.php?do=newpm&u=253996
+// @match        http://*.neogaf.com/forum/private.php?do=showpm&pmid=*
 // @require      http://code.jquery.com/jquery-latest.js
 // @connect      api.steampowered.com
 // @connect      steamcommunity.com
@@ -318,8 +319,20 @@ function loadAllGames() {
         }
     });
 }
-
 /**
+/**
+ * Find Steam key
+ */
+function findSteamKey(href){
+    var message = $("#post_message_").text();
+    var giveaways = message.match(/\w{5}\-\w{5}\-\w{5}/);
+
+    giveaways.forEach(function(index, steamKey) {
+        var redeemPage = "<a href=\"https://store.steampowered.com/account/registerkey?key=" + steamKey + "\">" + steamKey + "</a>";
+        $("#post_message_").html($("#post_message_").html().replace(steamKey, redeemPage));
+    });
+}
+
 /**
  * Initializes MonkeyBot
  * @throws {Error} - Error if SteamID doesn't exist
@@ -328,6 +341,11 @@ function init() {
     var href = window.location.href;
     var raffleLine = localStorage.getItem("monkeyBot_raffleLine");
     var raffleName = localStorage.getItem("monkeyBot_raffleName");
+    
+    //Run Steam key check if on private message only
+    if (window.location.pathname.indexOf("forum/private.php") > -1) {
+        findSteamKey(href);
+    }
 
     getSteamID(function performActions(steamID) {
         if (!steamID) {
