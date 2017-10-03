@@ -343,7 +343,7 @@ function init() {
     var raffleName = localStorage.getItem("monkeyBot_raffleName");
     
     //Run Steam key check if on private message only
-    if (window.location.pathname == "/forum/private.php") {
+    if (window.location.pathname.indexOf("forum/private.php") > -1) {
         findSteamKey(href);
     }
 
