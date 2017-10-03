@@ -327,7 +327,7 @@ function findSteamKey(href){
     var message = $("#post_message_").text();
     var giveaways = message.match(/\w{5}\-\w{5}\-\w{5}/);
 
-    giveaways.forEach(function(index, steamKey) {
+    giveaways.forEach(function findKey(steamKey) {
         var redeemPage = "<a href=\"https://store.steampowered.com/account/registerkey?key=" + steamKey + "\">" + steamKey + "</a>";
         $("#post_message_").html($("#post_message_").html().replace(steamKey, redeemPage));
     });
