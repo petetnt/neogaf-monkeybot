@@ -1,4 +1,7 @@
 # NeoGAF-MonkeyBot
+
+> **NOTE:** READ THE [CODE OF CONDUCT](CODE_OF_CONDUCT.md) FIRST BEFORE CONTRIBUTING OR USING.
+
 Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot-bot giveaways a bit more fun.
 
 ![NeoGAF ModBot MonkeyBot](/images/banner.png?raw=true "NeoGAF ModBot MonkeyBot")
