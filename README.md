@@ -1,6 +1,6 @@
 # NeoGAF-MonkeyBot
 
-> **NOTE:** READ THE [CODE OF CONDUCT](CODE_OF_CONDUCT.md) FIRST BEFORE CONTRIBUTING OR USING.
+> **Deprecated:** I am not using this script or visiting NeoGAF. If someone wants it, its' all yours. For a ResetEra version, see [resetera-gifthelper](https://github.com/fcostantini/resetera-gifthelper)
 
 Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot-bot giveaways a bit more fun.
 
@@ -28,4 +28,4 @@ The script automatically obtains the 64-bit Steam key based on your profile name
 The games list is updated once per day maximum and the parser might/will miss games that are spelled differently than the actual Steam name, sorry about that. Want to improve that? Check out https://github.com/petetnt/neogaf-monkeybot/issues/3!
 
 ## Contributing
-Contributions are very welcome! File an issue or send a PR!
+Contributions are very welcome! File an issue or send a PR! We follow a [CODE OF CONDUCT](CODE_OF_CONDUCT.md)
