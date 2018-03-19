@@ -1,6 +1,6 @@
 # NeoGAF-MonkeyBot
 
-> **Deprecated:** I am not using this script or visiting NeoGAF. If someone wants it, its' all yours. For a ResetEra version, see [resetera-gifthelper](https://github.com/fcostantini/resetera-gifthelper)
+> **Deprecated:** I am not using this script or visiting NeoGAF. If someone wants it, it's all yours. For a ResetEra version, see [resetera-gifthelper](https://github.com/fcostantini/resetera-gifthelper)
 
 Some simple helpers for Greasemonkey/Tampermonkey that make using NeoGAFs ModBot-bot giveaways a bit more fun.
 
